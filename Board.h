@@ -1,6 +1,7 @@
 #pragma once
 
 #include<iostream>
+#include<SDL.h>
 #pragma once
 #include"Piece.h"
 #include"Board.h"
@@ -12,6 +13,7 @@ class Board
 
 private:
 	Piece*** pieces;
+	SDL_Texture* piece_textures[12];
 
 public:
 	Board();
@@ -23,6 +25,12 @@ public:
 	void ChangePos(Piece* piece, int x, int y);
 
 	Piece* GetPiece(int x, int y);
+
+	void InitBoard();
+
+	void LoadTextures(SDL_Renderer* renderer);
+
+	void DrawBoard(SDL_Renderer* renderer, int selected_x = -1, int selected_y = -1);
 
 };
 

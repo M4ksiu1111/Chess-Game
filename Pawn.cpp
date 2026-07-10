@@ -4,7 +4,7 @@
 #include"Statics.h"
 
 
-	Pawn::Pawn(Board* board,int start_x, int start_y, int color) :Piece(board,start_x, start_y, PAWN_INDEX, PAWN_POWER, color), is_started(true) {}
+	Pawn::Pawn(Board* board,int start_x, int start_y,int index, int color) :Piece(board,start_x, start_y, index, PAWN_POWER, color), is_started(true) {}
 
 	bool Pawn::Move(int dirX, int dirY) 
 	{

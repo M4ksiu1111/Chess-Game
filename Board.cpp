@@ -1,9 +1,12 @@
 #include<iostream>
 
+
 #include"Piece.h"
 #include"Board.h"
 #include"Statics.h"
+#include"Pawn.h"
 
+using namespace std;
 
 
 	Board::Board()
@@ -22,6 +25,12 @@
 				pieces[i][j] = nullptr;
 			}
 		}
+
+		for (int i = 0; i < 12; i++)
+		{
+			piece_textures[i] = nullptr;
+		}
+
 	}
 
 
@@ -71,3 +80,84 @@
 	{
 		return pieces[x][y];
 	}
+
+
+	void Board::InitBoard()
+	{
+		//white pieces
+		for (int i = 0; i < BOARD_SIZEX; i++)
+		{
+			pieces[i][1] = new Pawn(this, i, 1,BLACK_PAWN_INDEX, COLOR_WHITE);
+		}
+
+		//black pieces
+
+		for (int i = 0; i < BOARD_SIZEX; i++)
+		{
+			pieces[i][BOARD_SIZEY-2] = new Pawn(this, i, BOARD_SIZEY - 2,WHITE_PAWN_INDEX, COLOR_BLACK);
+		}
+
+
+	}
+
+
+	void Board::LoadTextures(SDL_Renderer* renderer)
+	{
+		SDL_Surface* white_pawn = SDL_LoadBMP("G:\\Mój dysk\\PROJEKTY_SAM\\Chess\\Project1\\img\\white-pawn.bmp");
+
+		if (white_pawn != nullptr) {
+			Uint32 color_key = SDL_MapRGB(white_pawn->format, 0, 163, 232);
+			SDL_SetColorKey(white_pawn, SDL_TRUE, color_key);
+			piece_textures[WHITE_PAWN_INDEX] = SDL_CreateTextureFromSurface(renderer, white_pawn);
+			SDL_FreeSurface(white_pawn);
+		}
+
+		
+
+
+	}
+
+	void Board::DrawBoard(SDL_Renderer* renderer, int selected_x, int selected_y)
+	{
+		
+		for (int x = 0; x < BOARD_SIZEX; x++)
+		{
+			for (int y = 0; y < BOARD_SIZEY; y++)
+			{
+				//background(chessboard)
+				SDL_Rect tile_rect = { x * SQUARE_SIZE, y * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE };
+
+				if ((x + y) % 2 == 0) {
+					SDL_SetRenderDrawColor(renderer, 238, 238, 210, 255);
+				}
+				else {
+					SDL_SetRenderDrawColor(renderer, 118, 150, 86, 255);
+				}
+
+				//highliting selected field
+				if (x == selected_x && y == selected_y)
+				{
+					SDL_SetRenderDrawColor(renderer, 255, 204, 153,255);
+				}
+
+				SDL_RenderFillRect(renderer, &tile_rect);
+
+				//PIECES
+
+				if (pieces[x][y] != nullptr)
+				{
+					int index = pieces[x][y]->GetIndex();
+
+					SDL_Texture* texture = piece_textures[index];
+
+					if (texture != nullptr) {
+						
+						SDL_RenderCopy(renderer, texture, NULL, &tile_rect);
+					}
+
+				}
+			}
+		}
+
+	}
+	
