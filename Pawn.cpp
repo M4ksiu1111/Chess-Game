@@ -11,7 +11,7 @@
 		int new_x, new_y;
 		int legal_moves[4][2] = { {0,1} , {0,2} , {1,1} , {-1, 1} };
 
-		if (GetColor() == COLOR_WHITE)
+		if (GetColor() == COLOR_BLACK)
 		{
 			//legal moves x;y
 			
@@ -29,14 +29,14 @@
 					 //checks if the player want to destroy other piece
 					 if ((dirX == 1 || dirX == -1) && dirY == 1)
 					 {
-						 if (board->GetPiece(new_x, new_y) == nullptr || board->GetPiece(new_x, new_y)->GetColor() == this->color)
-						 return false;
-						 else {
-							 board->Beat(this, board->GetPiece(new_x, new_y));
+						 if (board->Beat(this, board->GetPiece(new_x, new_y)))
+						 {
 							 is_started = false;
 							 return true;
 						 }
-
+							
+						 return false;
+							 
 					 }
 					 
 					 else  if ((dirX == 0 && dirY == 1) || (is_started == true && dirX == 0 && dirY == 2)) {
@@ -59,7 +59,7 @@
 
 		}
 
-		//BLACK LOGIC
+		//WHITE LOGIC
 		else {
 					
 			for (int i = 0; i < 4; i++)
@@ -76,13 +76,11 @@
 					//checks if the player want to destroy other piece
 					if ((dirX == 1 || dirX == -1) && dirY == -1)
 					{
-						if (board->GetPiece(new_x, new_y) == nullptr || board->GetPiece(new_x, new_y)->GetColor() == this->color)
-							return false;
-						else {
-							board->Beat(this, board->GetPiece(new_x, new_y));
+						if (board->Beat(this, board->GetPiece(new_x, new_y))) {
 							is_started = false;
 							return true;
 						}
+						return false;
 
 					}
 

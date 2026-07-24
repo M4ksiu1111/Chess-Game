@@ -24,6 +24,8 @@ int main(int argc, char* args[])
 
     int tmpX=-1,tmpY=-1;
 
+    int turn = 0; //0-white to move 1-black to move
+
 
     while (running) {
        
@@ -57,14 +59,17 @@ int main(int argc, char* args[])
 
                             if (board->GetPiece(tmpX, tmpY)->Move(dirX, dirY))
                             {
+                               
                                 tmpX = -1;
                                 tmpY = -1;
+                                //switch turn
+                                turn = 1 - turn;
                             }
                         }
 
                     }
 
-                    else if (board->GetPiece(real_x, real_y) != nullptr)
+                    else if (board->GetPiece(real_x, real_y) != nullptr  && board->GetPiece(real_x, real_y)->GetColor() == turn)
                     {
                        tmpX = real_x;
                        tmpY = real_y;

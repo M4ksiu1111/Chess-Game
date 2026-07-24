@@ -5,6 +5,7 @@
 #include"Board.h"
 #include"Statics.h"
 #include"Pawn.h"
+#include"Rook.h"
 
 using namespace std;
 
@@ -50,8 +51,11 @@ using namespace std;
 		delete[] pieces;
 	}
 
-	void Board::Beat(Piece* piece1, Piece* piece2)//piece1 beats piece2 
+	bool Board::Beat(Piece* piece1, Piece* piece2)//piece1 beats piece2 
 	{
+
+		if (piece2 == nullptr || piece1->GetColor() == piece2->GetColor() ) return false;
+		
 		int p2_x = piece2->GetPosX();
 		int p2_y = piece2->GetPosY();
 
@@ -64,6 +68,8 @@ using namespace std;
 
 		pieces[p2_x][p2_y] = piece1;
 		pieces[p1_x][p1_y] = nullptr;
+
+		return true;
 	
 	}
 
@@ -84,20 +90,22 @@ using namespace std;
 
 	void Board::InitBoard()
 	{
-		//white pieces
+		
 		for (int i = 0; i < BOARD_SIZEX; i++)
 		{
-			pieces[i][1] = new Pawn(this, i, 1,BLACK_PAWN_INDEX, COLOR_WHITE);
+			pieces[i][1] = new Pawn(this, i, 1, BLACK_PAWN_INDEX, COLOR_BLACK);
 		}
-
-		//black pieces
 
 		for (int i = 0; i < BOARD_SIZEX; i++)
 		{
-			pieces[i][BOARD_SIZEY-2] = new Pawn(this, i, BOARD_SIZEY - 2,WHITE_PAWN_INDEX, COLOR_BLACK);
+			pieces[i][BOARD_SIZEY - 2] = new Pawn(this, i, BOARD_SIZEY - 2, WHITE_PAWN_INDEX, COLOR_WHITE);
 		}
 
-
+		pieces[0][BOARD_SIZEY - 1] = new Rook(this, 0, BOARD_SIZEY - 1, WHITE_ROOK_INDEX, COLOR_WHITE);
+		pieces[BOARD_SIZEX-1][BOARD_SIZEY - 1] = new Rook(this, BOARD_SIZEX - 1, BOARD_SIZEY - 1, WHITE_ROOK_INDEX, COLOR_WHITE);
+		
+		pieces[0][0]= new Rook(this, 0, 0 , BLACK_ROOK_INDEX, COLOR_BLACK);
+		pieces[BOARD_SIZEX-1][0] = new Rook(this, BOARD_SIZEX - 1 , 0, BLACK_ROOK_INDEX, COLOR_BLACK);
 	}
 
 
@@ -110,6 +118,33 @@ using namespace std;
 			SDL_SetColorKey(white_pawn, SDL_TRUE, color_key);
 			piece_textures[WHITE_PAWN_INDEX] = SDL_CreateTextureFromSurface(renderer, white_pawn);
 			SDL_FreeSurface(white_pawn);
+		}
+
+		SDL_Surface* black_pawn= SDL_LoadBMP("G:\\Mój dysk\\PROJEKTY_SAM\\Chess\\Project1\\img\\black-pawn.bmp");
+
+		if (black_pawn != nullptr) {
+			Uint32 color_key = SDL_MapRGB(black_pawn->format, 0, 162, 232);
+			SDL_SetColorKey(black_pawn, SDL_TRUE, color_key);
+			piece_textures[BLACK_PAWN_INDEX] = SDL_CreateTextureFromSurface(renderer, black_pawn);
+			SDL_FreeSurface(black_pawn);
+		}
+
+		SDL_Surface* white_rook = SDL_LoadBMP("G:\\Mój dysk\\PROJEKTY_SAM\\Chess\\Project1\\img\\white-rook.bmp");
+
+		if (white_rook != nullptr) {
+			Uint32 color_key = SDL_MapRGB(white_rook->format, 0, 162, 232);
+			SDL_SetColorKey(white_rook, SDL_TRUE, color_key);
+			piece_textures[WHITE_ROOK_INDEX] = SDL_CreateTextureFromSurface(renderer, white_rook);
+			SDL_FreeSurface(white_rook);
+		}
+
+		SDL_Surface* black_rook = SDL_LoadBMP("G:\\Mój dysk\\PROJEKTY_SAM\\Chess\\Project1\\img\\black-rook.bmp");
+
+		if (black_rook != nullptr) {
+			Uint32 color_key = SDL_MapRGB(black_rook->format, 0, 162, 232);
+			SDL_SetColorKey(black_rook, SDL_TRUE, color_key);
+			piece_textures[BLACK_ROOK_INDEX] = SDL_CreateTextureFromSurface(renderer, black_rook);
+			SDL_FreeSurface(black_rook);
 		}
 
 		

@@ -20,7 +20,7 @@ public:
 
 	~Board();
 
-	void Beat(Piece* piece1, Piece* piece2);//piece1 beats piece2 
+	bool Beat(Piece* piece1, Piece* piece2);//piece1 beats piece2 
 
 	void ChangePos(Piece* piece, int x, int y);
 

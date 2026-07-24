@@ -3,7 +3,7 @@
 #include"Piece.h"
 #include"Statics.h"
 
-class Pawn :public Piece
+class Pawn:public Piece
 {
 
 private:

@@ -16,3 +16,9 @@
 #define BLACK_PAWN_INDEX 1
 #define PAWN_POWER 1
 
+//rook
+
+#define WHITE_ROOK_INDEX 2
+#define BLACK_ROOK_INDEX 3
+#define ROOK_POWER 6
+
