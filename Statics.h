@@ -22,3 +22,15 @@
 #define BLACK_ROOK_INDEX 3
 #define ROOK_POWER 6
 
+//bishop
+
+#define WHITE_BISHOP_INDEX 4
+#define BLACK_BISHOP_INDEX 5
+#define BISHOP_POWER 3
+
+//QUEEN
+
+#define WHITE_QUEEN_INDEX 6
+#define BLACK_QUEEN_INDEX 7
+#define QUEEN_POWER 9
+

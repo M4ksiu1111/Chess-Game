@@ -3,9 +3,6 @@
 #include"Statics.h"
 #include"Board.h"
 
-
-
-
 	Piece::Piece(Board* board, int start_x, int start_y, int index, int power, int color) : board(board),pos_x(start_x), pos_y(start_y), piece_index(index), power(power), color(color), alive(true), attacking(false) {}
 	
 	Piece::~Piece() {

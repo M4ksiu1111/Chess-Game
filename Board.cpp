@@ -6,6 +6,8 @@
 #include"Statics.h"
 #include"Pawn.h"
 #include"Rook.h"
+#include"Bishop.h"
+#include"Queen.h"
 
 using namespace std;
 
@@ -106,6 +108,16 @@ using namespace std;
 		
 		pieces[0][0]= new Rook(this, 0, 0 , BLACK_ROOK_INDEX, COLOR_BLACK);
 		pieces[BOARD_SIZEX-1][0] = new Rook(this, BOARD_SIZEX - 1 , 0, BLACK_ROOK_INDEX, COLOR_BLACK);
+
+		pieces[2][BOARD_SIZEY - 1] = new Bishop(this, 2, BOARD_SIZEY - 1, WHITE_BISHOP_INDEX, COLOR_WHITE);
+		pieces[2][0] = new Bishop(this, 2, 0, BLACK_BISHOP_INDEX, COLOR_BLACK);
+
+		pieces[5][BOARD_SIZEY - 1] = new Bishop(this, 5, BOARD_SIZEY - 1, WHITE_BISHOP_INDEX, COLOR_WHITE);
+		pieces[5][0] = new Bishop(this, 5, 0, BLACK_BISHOP_INDEX, COLOR_BLACK);
+
+		pieces[3][BOARD_SIZEY - 1] = new Queen(this, 3, BOARD_SIZEY - 1, WHITE_QUEEN_INDEX, COLOR_WHITE);
+		pieces[3][0] = new Queen(this, 3, 0, BLACK_QUEEN_INDEX, COLOR_BLACK);
+
 	}
 
 
@@ -147,8 +159,44 @@ using namespace std;
 			SDL_FreeSurface(black_rook);
 		}
 
-		
+		SDL_Surface* white_bishop = SDL_LoadBMP("G:\\Mój dysk\\PROJEKTY_SAM\\Chess\\Project1\\img\\white-bishop.bmp");
 
+		if (white_bishop != nullptr) {
+			Uint32 color_key = SDL_MapRGB(white_bishop->format, 0, 162, 232);
+			SDL_SetColorKey(white_bishop, SDL_TRUE, color_key);
+			piece_textures[WHITE_BISHOP_INDEX] = SDL_CreateTextureFromSurface(renderer, white_bishop);
+			SDL_FreeSurface(white_bishop);
+		}
+
+		SDL_Surface* black_bishop = SDL_LoadBMP("G:\\Mój dysk\\PROJEKTY_SAM\\Chess\\Project1\\img\\black-bishop.bmp");
+
+		if (black_bishop != nullptr) {
+			Uint32 color_key = SDL_MapRGB(black_bishop->format, 0, 162, 232);
+			SDL_SetColorKey(black_bishop, SDL_TRUE, color_key);
+			piece_textures[BLACK_BISHOP_INDEX] = SDL_CreateTextureFromSurface(renderer, black_bishop);
+			SDL_FreeSurface(black_bishop);
+		}
+
+
+		SDL_Surface* white_queen = SDL_LoadBMP("G:\\Mój dysk\\PROJEKTY_SAM\\Chess\\Project1\\img\\white-hetman.bmp");
+
+		if (white_queen != nullptr) {
+			Uint32 color_key = SDL_MapRGB(white_queen->format, 0, 162, 232);
+			SDL_SetColorKey(white_queen, SDL_TRUE, color_key);
+			piece_textures[WHITE_QUEEN_INDEX] = SDL_CreateTextureFromSurface(renderer, white_queen);
+			SDL_FreeSurface(white_queen);
+		}
+
+		SDL_Surface* black_queen = SDL_LoadBMP("G:\\Mój dysk\\PROJEKTY_SAM\\Chess\\Project1\\img\\black-hetman.bmp");
+
+		if (black_queen != nullptr) {
+			Uint32 color_key = SDL_MapRGB(black_queen->format, 0, 162, 232);
+			SDL_SetColorKey(black_queen, SDL_TRUE, color_key);
+			piece_textures[BLACK_QUEEN_INDEX] = SDL_CreateTextureFromSurface(renderer, black_queen);
+			SDL_FreeSurface(black_queen);
+		}
+
+		
 
 	}
 
