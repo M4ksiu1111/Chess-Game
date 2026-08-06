@@ -11,6 +11,10 @@ bool Knight::Move(int dirX, int dirY)
 	int new_x = GetPosX() + dirX;
 	int new_y = GetPosY() + dirY;
 
+	if (board->IsMoveSafe(this, new_x, new_y) == false) {
+		return false;
+	}
+
 	if (abs(dirX) == 1 && abs(dirY) == 2 || abs(dirX) == 2 && abs(dirY) == 1)
 	{
 		if (board->GetPiece(new_x, new_y) != nullptr)

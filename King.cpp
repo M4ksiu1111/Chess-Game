@@ -33,6 +33,10 @@ bool King::Move(int dirX, int dirY)
 
 	if (IsChecked(new_x, new_y)) return false;
 
+	if (board->IsMoveSafe(this, new_x, new_y) == false) {
+		return false;
+	}
+
 	if (board->GetPiece(new_x, new_y) != nullptr)
 	{
 		return (board->Beat(this, board->GetPiece(new_x, new_y)));

@@ -13,6 +13,10 @@ bool Rook::Move(int dirX, int dirY)
 
 	if (dirX != 0 && dirY != 0 || dirX==0 && dirY==0 || IsJumpingAbove(new_x,new_y)==false) return false;
 
+	if (board->IsMoveSafe(this, new_x, new_y) == false) {
+		return false;
+	}
+
 	//checks if player want to destroy other piece
 	if (board->GetPiece(new_x, new_y) != nullptr)
 	{

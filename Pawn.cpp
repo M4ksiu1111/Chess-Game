@@ -23,7 +23,13 @@
 					 new_x = GetPosX() + dirX;
 					 new_y = GetPosY() + dirY;
 
+
+
 					 if (new_x < 0 || new_x >= BOARD_SIZEX || new_y < 0 || new_y >= BOARD_SIZEY) {
+						 return false;
+					 }
+
+					 if (board->IsMoveSafe(this, new_x, new_y) == false) {
 						 return false;
 					 }
 
@@ -71,6 +77,10 @@
 					new_y = GetPosY() + dirY;
 
 					if (new_x < 0 || new_x >= BOARD_SIZEX || new_y < 0 || new_y >= BOARD_SIZEY) {
+						return false;
+					}
+
+					if (board->IsMoveSafe(this, new_x, new_y) == false) {
 						return false;
 					}
 

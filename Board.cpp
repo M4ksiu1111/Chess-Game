@@ -291,3 +291,44 @@ using namespace std;
 
 	}
 	
+	Piece* Board::ReturnKing(int color)
+	{
+		for (int i = 0; i < BOARD_SIZEX; i++)
+		{
+			for (int j = 0; j < BOARD_SIZEY; j++)
+			{
+				if (dynamic_cast<King*>(GetPiece(i, j)) && GetPiece(i, j)->GetColor() == color) return GetPiece(i, j);
+			}
+		}
+
+		return nullptr;
+
+	}
+
+	bool Board::IsMoveSafe(Piece* piece, int target_x, int target_y)
+	{
+		int act_posX = piece->GetPosX();
+		int act_posY = piece->GetPosY();
+
+		Piece* target_piece = GetPiece(target_x, target_y);
+
+		pieces[act_posX][act_posY] = nullptr;
+		pieces[target_x][target_y] = piece;
+		piece->SetPos(target_x, target_y);
+
+		King* king = dynamic_cast<King*>(ReturnKing(piece->GetColor()));
+
+		bool is_safe = true;
+
+		if (king != nullptr)
+		{
+			if (king->IsChecked(king->GetPosX(), king->GetPosY())) is_safe = false;
+		}
+
+		pieces[act_posX][act_posY] = piece;
+		pieces[target_x][target_y] = target_piece;
+		piece->SetPos(act_posX, act_posY);
+
+		return is_safe;
+	}
+	

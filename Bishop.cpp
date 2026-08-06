@@ -16,6 +16,10 @@ bool Bishop::Move(int dirX, int dirY)
 
 	if (std::abs(dirX) != std::abs(dirY) || dirX == 0 && dirY == 0 || IsJumpingAbove(new_x, new_y) == false) return false;
 
+	if (board->IsMoveSafe(this, new_x, new_y) == false) {
+		return false;
+	}
+
 	if (board->GetPiece(new_x, new_y) != nullptr)
 	{
 		return (board->Beat(this, board->GetPiece(new_x, new_y)));

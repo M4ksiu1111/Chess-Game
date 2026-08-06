@@ -32,5 +32,9 @@ public:
 
 	void DrawBoard(SDL_Renderer* renderer, int selected_x = -1, int selected_y = -1);
 
+	Piece* ReturnKing(int color);
+
+	bool IsMoveSafe(Piece* piece, int target_x, int target_y);
+
 };
 
