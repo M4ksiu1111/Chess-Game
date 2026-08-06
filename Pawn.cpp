@@ -1,6 +1,7 @@
 #include"Piece.h"
 #include"Board.h"
 #include"Pawn.h"
+#include"King.h"
 #include"Statics.h"
 
 
@@ -107,4 +108,24 @@
 	}
 
 
+	bool Pawn::GiveCheck(int king_x, int king_y) {
+
+		int x = GetPosX();
+		int y = GetPosY();
+
+		if (color == COLOR_WHITE) {
+
+			if ( (x - 1 == king_x && y - 1 == king_y) || (x + 1 == king_x && y - 1 == king_y) ) return true;
+		}
+
+		else {
+			if ( (x - 1 == king_x && y + 1 == king_y) || (x + 1 == king_x && y + 1 == king_y) ) return true;
+		}
+
+		return false;
+
+
+		
+
+	}
 

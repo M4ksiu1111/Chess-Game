@@ -21,13 +21,14 @@ public:
 
 	virtual	bool Move(int dirX, int dirY) = 0; //returns true or false if the piece moved properly
 
+	virtual bool GiveCheck(int king_x, int king_y) = 0;
+
 	bool is_attacking();
 
 
 	void set_attack(bool a);
 
 	bool is_alive();
-
 
 	void set_life(bool f);
 

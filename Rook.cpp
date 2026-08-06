@@ -34,3 +34,17 @@ bool Rook::Move(int dirX, int dirY)
 	
 
 }
+
+
+bool Rook::GiveCheck(int king_x, int king_y) {
+
+	int dirX = king_x - GetPosX();
+	int dirY = king_y - GetPosY();
+
+	if (dirX != 0 && dirY != 0) return false;
+
+	else {
+		return IsJumpingAbove(king_x, king_y);
+	}
+
+}

@@ -34,3 +34,14 @@
 #define BLACK_QUEEN_INDEX 7
 #define QUEEN_POWER 9
 
+//Knight
+#define WHITE_KNIGHT_INDEX 8
+#define BLACK_KNIGHT_INDEX 9
+#define KNIGHT_POWER 3
+
+//king
+
+#define WHITE_KING_INDEX 10
+#define BLACK_KING_INDEX 11
+#define KING_POWER 0
+

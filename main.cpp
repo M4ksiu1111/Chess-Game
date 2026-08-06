@@ -1,5 +1,6 @@
 #include"Pawn.h"
 #include"Board.h"
+#include"King.h"
 
 
 #include<iostream>

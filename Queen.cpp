@@ -2,6 +2,8 @@
 #include"Statics.h"
 #include"Board.h"
 
+#include<cmath>
+
 Queen::Queen(Board* board, int start_x, int start_y, int index, int color) : Piece(board, start_x, start_y, index, QUEEN_POWER, color){}
 
 bool Queen::Move(int dirX, int dirY)
@@ -27,6 +29,19 @@ bool Queen::Move(int dirX, int dirY)
 		board->ChangePos(this, new_x, new_y);
 		return true;
 
+	}
+
+}
+
+bool Queen::GiveCheck(int king_x, int king_y)
+{
+	int dirX = king_x - GetPosX();
+	int dirY = king_y - GetPosY();
+
+	if (dirX != 0 && dirY != 0 && abs(dirX) != abs(dirY)) return false;
+
+	else {
+		return IsJumpingAbove(king_x, king_y);
 	}
 
 }

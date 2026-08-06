@@ -1,6 +1,7 @@
 #include"Bishop.h"
 #include"Statics.h"
 #include"Board.h"
+#include"King.h"
 
 #include<cmath>
 
@@ -27,6 +28,20 @@ bool Bishop::Move(int dirX, int dirY)
 
 	}
 
+
+}
+
+bool Bishop::GiveCheck(int king_x, int king_y)
+{
+
+	int dirX = king_x - GetPosX();
+	int dirY = king_y - GetPosY();
+	
+	if (abs(dirX) != abs(dirY)) return false;
+
+	else {
+		return IsJumpingAbove(king_x, king_y);
+	}
 
 }
 

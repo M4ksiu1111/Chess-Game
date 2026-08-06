@@ -8,6 +8,8 @@
 #include"Rook.h"
 #include"Bishop.h"
 #include"Queen.h"
+#include"Knight.h"
+#include"King.h"
 
 using namespace std;
 
@@ -118,6 +120,15 @@ using namespace std;
 		pieces[3][BOARD_SIZEY - 1] = new Queen(this, 3, BOARD_SIZEY - 1, WHITE_QUEEN_INDEX, COLOR_WHITE);
 		pieces[3][0] = new Queen(this, 3, 0, BLACK_QUEEN_INDEX, COLOR_BLACK);
 
+		pieces[1][BOARD_SIZEY - 1] = new Knight(this, 1, BOARD_SIZEY - 1, WHITE_KNIGHT_INDEX, COLOR_WHITE);
+		pieces[BOARD_SIZEX-2][BOARD_SIZEY - 1] = new Knight(this, BOARD_SIZEX-2, BOARD_SIZEY - 1, WHITE_KNIGHT_INDEX, COLOR_WHITE);
+
+		pieces[1][0] = new Knight(this, 1, 0, BLACK_KNIGHT_INDEX, COLOR_BLACK);
+		pieces[BOARD_SIZEX - 2][0] = new Knight(this, BOARD_SIZEX - 2, 0, BLACK_KNIGHT_INDEX, COLOR_BLACK);
+
+		pieces[4][0] = new King(this, 4, 0, BLACK_KING_INDEX, COLOR_BLACK);
+		pieces[4][BOARD_SIZEY-1] = new King(this, 4, BOARD_SIZEY - 1, WHITE_KING_INDEX, COLOR_WHITE);
+
 	}
 
 
@@ -194,6 +205,42 @@ using namespace std;
 			SDL_SetColorKey(black_queen, SDL_TRUE, color_key);
 			piece_textures[BLACK_QUEEN_INDEX] = SDL_CreateTextureFromSurface(renderer, black_queen);
 			SDL_FreeSurface(black_queen);
+		}
+
+		SDL_Surface* white_knight = SDL_LoadBMP("G:\\Mój dysk\\PROJEKTY_SAM\\Chess\\Project1\\img\\white-knight.bmp");
+
+		if (white_knight != nullptr) {
+			Uint32 color_key = SDL_MapRGB(white_knight->format, 0, 162, 232);
+			SDL_SetColorKey(white_knight, SDL_TRUE, color_key);
+			piece_textures[WHITE_KNIGHT_INDEX] = SDL_CreateTextureFromSurface(renderer, white_knight);
+			SDL_FreeSurface(white_knight);
+		}
+
+		SDL_Surface* black_knight = SDL_LoadBMP("G:\\Mój dysk\\PROJEKTY_SAM\\Chess\\Project1\\img\\black-knight.bmp");
+
+		if (black_knight != nullptr) {
+			Uint32 color_key = SDL_MapRGB(black_knight->format, 0, 162, 232);
+			SDL_SetColorKey(black_knight, SDL_TRUE, color_key);
+			piece_textures[BLACK_KNIGHT_INDEX] = SDL_CreateTextureFromSurface(renderer, black_knight);
+			SDL_FreeSurface(black_knight);
+		}
+
+		SDL_Surface* white_king = SDL_LoadBMP("G:\\Mój dysk\\PROJEKTY_SAM\\Chess\\Project1\\img\\white-king.bmp");
+
+		if (white_king != nullptr) {
+			Uint32 color_key = SDL_MapRGB(white_king->format, 0, 162, 232);
+			SDL_SetColorKey(white_king, SDL_TRUE, color_key);
+			piece_textures[WHITE_KING_INDEX] = SDL_CreateTextureFromSurface(renderer, white_king);
+			SDL_FreeSurface(white_king);
+		}
+
+		SDL_Surface* black_king = SDL_LoadBMP("G:\\Mój dysk\\PROJEKTY_SAM\\Chess\\Project1\\img\\black-king.bmp");
+
+		if (black_king != nullptr) {
+			Uint32 color_key = SDL_MapRGB(black_king->format, 0, 162, 232);
+			SDL_SetColorKey(black_king, SDL_TRUE, color_key);
+			piece_textures[BLACK_KING_INDEX] = SDL_CreateTextureFromSurface(renderer, black_king);
+			SDL_FreeSurface(black_king);
 		}
 
 		
