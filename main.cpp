@@ -3,6 +3,7 @@
 #include"King.h"
 
 
+
 #include<iostream>
 #include<SDL.h>
 
@@ -38,6 +39,7 @@ int main(int argc, char* args[])
 
             else if (event.type == SDL_MOUSEBUTTONDOWN)
             {
+                bool success_turn = false;
                 if (event.button.button == SDL_BUTTON_LEFT)
                 {
                     int clicked_x = event.button.x;
@@ -48,19 +50,33 @@ int main(int argc, char* args[])
 
                     if (tmpX != -1 && tmpY != -1)
                     {
+                        //check for castling
+                        if (dynamic_cast<King*>(board->GetPiece(tmpX, tmpY)) != nullptr)
+                        {
+                            King* king = dynamic_cast<King*>(board->GetPiece(tmpX, tmpY));
+
+                            if (king->Castle(board->GetPiece(real_x, real_y)))
+                            {
+                                success_turn = true;
+                                tmpX = -1;
+                                tmpY = -1;
+                                //switch turn
+                                turn = 1 - turn;
+                            }
+                        }
+                        
                         //if player decides to move other piece
-                        if (tmpX == real_x && tmpY == real_y) {
+                        if (tmpX == real_x && tmpY == real_y && success_turn == false) {
                             tmpX = -1;
                             tmpY = -1;
-                            }
+                        }
 
-                        else {
+                        else if (success_turn == false) {
                             int dirX = real_x - tmpX;
                             int dirY = real_y - tmpY;
 
                             if (board->GetPiece(tmpX, tmpY)->Move(dirX, dirY))
                             {
-                               
                                 tmpX = -1;
                                 tmpY = -1;
                                 //switch turn

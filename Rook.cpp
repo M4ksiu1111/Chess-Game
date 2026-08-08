@@ -52,3 +52,8 @@ bool Rook::GiveCheck(int king_x, int king_y) {
 	}
 
 }
+
+bool Rook::IsStarted() {
+
+	return is_started;
+}

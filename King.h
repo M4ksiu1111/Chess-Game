@@ -5,7 +5,7 @@
 class King :public Piece {
 
 private:
-	bool moved;
+	bool can_castle;
 	bool checked;
 	bool can_move;
 public:
@@ -13,6 +13,8 @@ public:
 	bool IsChecked(int posX, int posY);
 	bool Move(int dirX, int dirY) override;
 	bool GiveCheck(int king_x, int king_y) override;
+
+	bool Castle(Piece* piece);
 
 
 };
