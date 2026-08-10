@@ -1,6 +1,7 @@
 #include<iostream>
 
 
+
 #include"Piece.h"
 #include"Board.h"
 #include"Statics.h"
@@ -12,6 +13,8 @@
 #include"King.h"
 
 using namespace std;
+
+
 
 
 	Board::Board()
@@ -36,6 +39,8 @@ using namespace std;
 			piece_textures[i] = nullptr;
 		}
 
+		is_promoting = false;
+
 	}
 
 
@@ -53,6 +58,9 @@ using namespace std;
 		}
 		
 		delete[] pieces;
+
+		if (cursor_hand) SDL_FreeCursor(cursor_hand);
+		if (cursor_arrow) SDL_FreeCursor(cursor_arrow);
 	}
 
 	bool Board::Beat(Piece* piece1, Piece* piece2)//piece1 beats piece2 
@@ -134,6 +142,19 @@ using namespace std;
 
 	void Board::LoadTextures(SDL_Renderer* renderer)
 	{
+		if (TTF_Init() == -1) {
+			cout << "Blad TTF: " << TTF_GetError() << endl;
+		}
+
+		
+		font = TTF_OpenFont("arial.ttf", 20);
+		if (font == nullptr) {
+			cout << "Nie znaleziono pliku arial.ttf! " << TTF_GetError() << endl;
+		}
+
+		cursor_hand = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_HAND);
+		cursor_arrow = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_ARROW);
+
 		SDL_Surface* white_pawn = SDL_LoadBMP("G:\\Mój dysk\\PROJEKTY_SAM\\Chess\\Project1\\img\\white-pawn.bmp");
 
 		if (white_pawn != nullptr) {
@@ -331,4 +352,96 @@ using namespace std;
 
 		return is_safe;
 	}
+
+	void Board::SetPawnPromotion(int x, int y)
+	{
+		is_promoting = true;
+		promo_x = x;
+		promo_y = y;
+
+	}
+
+	bool Board::IsPromoting() {
+		return is_promoting;
+	}
+
+	void Board::DrawPawnPromotion(SDL_Renderer* renderer)
+	{
+		if (is_promoting == false || font == nullptr) return;
+
+		
+		int mouse_x, mouse_y;
+		Uint32 mouse_state = SDL_GetMouseState(&mouse_x, &mouse_y);
+		bool is_hovering_any = false;
+		int choice = -1;
+
+		
+		SDL_Rect menu_bg = { 220, 200, 200, 240 };
+		SDL_SetRenderDrawColor(renderer, 240, 240, 240, 255); 
+		SDL_RenderFillRect(renderer, &menu_bg);
+
+		const char* options[4] = { "Hetman", "Wieza", "Goniec", "Skoczek" };
+
+		
+		for (int i = 0; i < 4; i++) {
+			
+			SDL_Rect button_rect = { 220, 200 + (i * 60), 200, 60 };
+
+			
+			bool is_hovered = (mouse_x >= button_rect.x && mouse_x <= button_rect.x + button_rect.w &&
+				mouse_y >= button_rect.y && mouse_y <= button_rect.y + button_rect.h);
+
+			
+			if (is_hovered) {
+				is_hovering_any = true;
+
+				
+				SDL_SetRenderDrawColor(renderer, 200, 220, 255, 255);
+				SDL_RenderFillRect(renderer, &button_rect);
+
+				
+				if (mouse_state & SDL_BUTTON(SDL_BUTTON_LEFT)) {
+					choice = i;
+				}
+			}
+
 	
+			SDL_Color textColor = is_hovered ? SDL_Color{ 0, 50, 150, 255 } : SDL_Color{ 0, 0, 0, 255 };
+			SDL_Surface* textSurface = TTF_RenderText_Solid(font, options[i], textColor);
+			SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+
+		
+			int text_x = button_rect.x + (button_rect.w - textSurface->w) / 2;
+			int text_y = button_rect.y + (button_rect.h - textSurface->h) / 2;
+			SDL_Rect textRect = { text_x, text_y, textSurface->w, textSurface->h };
+
+			SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
+			SDL_FreeSurface(textSurface);
+			SDL_DestroyTexture(textTexture);
+		}
+
+	
+		if (is_hovering_any) {
+			SDL_SetCursor(cursor_hand);
+		}
+		else {
+			SDL_SetCursor(cursor_arrow);
+		}
+
+		
+		if (choice != -1) {
+			Piece* old_pawn = pieces[promo_x][promo_y];
+			int color = old_pawn->GetColor();
+			delete old_pawn;
+
+			switch (choice) {
+			case 0: pieces[promo_x][promo_y] = new Queen(this, promo_x, promo_y, (color == COLOR_WHITE) ? WHITE_QUEEN_INDEX : BLACK_QUEEN_INDEX, color); break;
+			case 1: pieces[promo_x][promo_y] = new Rook(this, promo_x, promo_y, (color == COLOR_WHITE) ? WHITE_ROOK_INDEX : BLACK_ROOK_INDEX, color); break;
+			case 2: pieces[promo_x][promo_y] = new Bishop(this, promo_x, promo_y, (color == COLOR_WHITE) ? WHITE_BISHOP_INDEX : BLACK_BISHOP_INDEX, color); break;
+			case 3: pieces[promo_x][promo_y] = new Knight(this, promo_x, promo_y, (color == COLOR_WHITE) ? WHITE_KNIGHT_INDEX : BLACK_KNIGHT_INDEX, color); break;
+			}
+
+			is_promoting = false;
+			SDL_SetCursor(cursor_arrow); 
+		}
+	}

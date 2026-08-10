@@ -39,6 +39,10 @@ int main(int argc, char* args[])
 
             else if (event.type == SDL_MOUSEBUTTONDOWN)
             {
+                if (board->IsPromoting()) {
+                    continue; 
+                }
+
                 bool success_turn = false;
                 if (event.button.button == SDL_BUTTON_LEFT)
                 {
@@ -99,7 +103,10 @@ int main(int argc, char* args[])
 
         SDL_RenderClear(renderer);
         board->DrawBoard(renderer, tmpX,tmpY);
+        board->DrawPawnPromotion(renderer);
         SDL_RenderPresent(renderer);
+
+
     }
 
     // Sprzątanie

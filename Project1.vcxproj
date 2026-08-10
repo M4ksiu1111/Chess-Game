@@ -105,15 +105,15 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>G:\Mój dysk\PROJEKTY_SAM\Chess\SDL\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>G:\Mój dysk\PROJEKTY_SAM\Chess\SDL\include; G:\Mój dysk\PROJEKTY_SAM\Chess\SDL\SDL2_ttf-2.24.0\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>G:\Mój dysk\PROJEKTY_SAM\Chess\SDL\lib\x64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>G:\Mój dysk\PROJEKTY_SAM\Chess\SDL\lib\x64; G:\Mój dysk\PROJEKTY_SAM\Chess\SDL\SDL2_ttf-2.24.0\lib\x64</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;
 
-SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+SDL2main.lib;%(AdditionalDependencies); SDL2_ttf.lib;</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -125,15 +125,15 @@ SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>G:\Mój dysk\PROJEKTY_SAM\Chess\SDL\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>G:\Mój dysk\PROJEKTY_SAM\Chess\SDL\include; G:\Mój dysk\PROJEKTY_SAM\Chess\SDL\SDL2_ttf-2.24.0\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>G:\Mój dysk\PROJEKTY_SAM\Chess\SDL\lib\x64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>G:\Mój dysk\PROJEKTY_SAM\Chess\SDL\lib\x64; G:\Mój dysk\PROJEKTY_SAM\Chess\SDL\SDL2_ttf-2.24.0\lib\x64</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;
 
-SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+SDL2main.lib;%(AdditionalDependencies); SDL2_ttf.lib;</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

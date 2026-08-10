@@ -2,6 +2,7 @@
 
 #include<iostream>
 #include<SDL.h>
+#include <SDL_ttf.h>
 #pragma once
 #include"Piece.h"
 #include"Board.h"
@@ -14,6 +15,13 @@ class Board
 private:
 	Piece*** pieces;
 	SDL_Texture* piece_textures[12];
+	bool is_promoting;
+	TTF_Font* font;
+	SDL_Cursor* cursor_hand;
+	SDL_Cursor* cursor_arrow;
+	int promo_x, promo_y;
+
+
 
 public:
 	Board();
@@ -35,6 +43,14 @@ public:
 	Piece* ReturnKing(int color);
 
 	bool IsMoveSafe(Piece* piece, int target_x, int target_y);
+
+	void SetPawnPromotion(int x, int y);
+
+	void DrawPawnPromotion(SDL_Renderer* renderer);
+
+	bool IsPromoting();
+
+	
 
 };
 

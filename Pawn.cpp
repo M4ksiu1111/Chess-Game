@@ -5,7 +5,8 @@
 #include"Statics.h"
 
 
-	Pawn::Pawn(Board* board,int start_x, int start_y,int index, int color) :Piece(board,start_x, start_y, index, PAWN_POWER, color), is_started(true) {}
+	Pawn::Pawn(Board* board,int start_x, int start_y,int index, int color) :Piece(board,start_x, start_y, index, PAWN_POWER, color), 
+		is_started(true) {}
 
 	bool Pawn::Move(int dirX, int dirY) 
 	{
@@ -23,8 +24,6 @@
 					 new_x = GetPosX() + dirX;
 					 new_y = GetPosY() + dirY;
 
-
-
 					 if (new_x < 0 || new_x >= BOARD_SIZEX || new_y < 0 || new_y >= BOARD_SIZEY) {
 						 return false;
 					 }
@@ -39,6 +38,7 @@
 						 if (board->Beat(this, board->GetPiece(new_x, new_y)))
 						 {
 							 is_started = false;
+							 if (new_y == BOARD_SIZEY-1) board->SetPawnPromotion(new_x, new_y);
 							 return true;
 						 }
 							
@@ -52,6 +52,7 @@
 							 {
 								 board->ChangePos(this,new_x, new_y);
 								 is_started = false;
+								 if (new_y == BOARD_SIZEY-1) board->SetPawnPromotion(new_x, new_y);
 								 return true;
 							 }
 
@@ -89,6 +90,7 @@
 					{
 						if (board->Beat(this, board->GetPiece(new_x, new_y))) {
 							is_started = false;
+							if (new_y == 0) board->SetPawnPromotion(new_x, new_y);
 							return true;
 						}
 						return false;
@@ -101,6 +103,7 @@
 						{
 							board->ChangePos(this, new_x, new_y);
 							is_started = false;
+							if (new_y == 0) board->SetPawnPromotion(new_x, new_y);
 							return true;
 						}
 
