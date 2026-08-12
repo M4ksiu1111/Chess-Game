@@ -66,6 +66,8 @@ int main(int argc, char* args[])
                                 tmpY = -1;
                                 //switch turn
                                 turn = 1 - turn;
+
+                                board->IsFinished(turn); //check is game finished
                             }
                         }
                         
@@ -85,6 +87,8 @@ int main(int argc, char* args[])
                                 tmpY = -1;
                                 //switch turn
                                 turn = 1 - turn;
+
+                                board->IsFinished(turn); //check is game finished
                             }
                         }
 
@@ -104,8 +108,11 @@ int main(int argc, char* args[])
         SDL_RenderClear(renderer);
         board->DrawBoard(renderer, tmpX,tmpY);
         board->DrawPawnPromotion(renderer);
-        SDL_RenderPresent(renderer);
 
+        board->DrawMat(renderer);
+        board->DrawPat(renderer);
+
+        SDL_RenderPresent(renderer);
 
     }
 

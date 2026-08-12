@@ -14,11 +14,8 @@ bool Bishop::Move(int dirX, int dirY)
 	int new_x = GetPosX() + dirX;
 	int new_y = GetPosY() + dirY;
 
-	if (std::abs(dirX) != std::abs(dirY) || dirX == 0 && dirY == 0 || IsJumpingAbove(new_x, new_y) == false) return false;
+	if (!CanMove(new_x, new_y)) return false;
 
-	if (board->IsMoveSafe(this, new_x, new_y) == false) {
-		return false;
-	}
 
 	if (board->GetPiece(new_x, new_y) != nullptr)
 	{
@@ -32,6 +29,20 @@ bool Bishop::Move(int dirX, int dirY)
 
 	}
 
+}
+
+bool Bishop::CanMove(int targetX, int targetY)
+{
+	if (std::abs(targetX - pos_x) != std::abs(targetY - pos_y) || (targetX == pos_x && targetY == pos_y) || IsJumpingAbove(targetX, targetY) == false) return false;
+
+	if (board->IsMoveSafe(this, targetX, targetY) == false) {
+		return false;
+	}
+
+	Piece* target_piece = board->GetPiece(targetX, targetY);
+	if (target_piece != nullptr && target_piece->GetColor() == color) return false;
+
+	return true;
 
 }
 

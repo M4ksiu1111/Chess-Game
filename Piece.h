@@ -21,6 +21,8 @@ public:
 
 	virtual	bool Move(int dirX, int dirY) = 0; //returns true or false if the piece moved properly
 
+	virtual bool CanMove(int targetX, int targetY)=0;
+
 	virtual bool GiveCheck(int king_x, int king_y) = 0;
 
 	bool is_attacking();

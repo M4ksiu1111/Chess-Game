@@ -21,7 +21,8 @@ private:
 	SDL_Cursor* cursor_arrow;
 	int promo_x, promo_y;
 
-
+	bool is_mat, is_pat;
+	int lost_color;
 
 public:
 	Board();
@@ -50,6 +51,10 @@ public:
 
 	bool IsPromoting();
 
+	bool IsFinished(int color);
+
+	void DrawMat(SDL_Renderer* renderer);
+	void DrawPat(SDL_Renderer* renderer);
 	
 
 };

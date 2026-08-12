@@ -3,6 +3,8 @@
 #include"Board.h"
 #include"Rook.h"
 
+#include <cmath>
+
 King::King(Board* board, int start_x, int start_y, int index, int color) : Piece(board, start_x, start_y, index, KING_POWER, color),
 can_castle(true) {}
 
@@ -26,17 +28,9 @@ bool King::IsChecked(int posX, int posY)
 
 bool King::Move(int dirX, int dirY)
 {
-	if (std::abs(dirX) > 1 || std::abs(dirY) > 1 || (dirX == 0 && dirY == 0)) {
-		return false;
-	}
-
+	
 	int new_x = GetPosX() + dirX;
 	int new_y = GetPosY() + dirY;
-
-
-	if (board->IsMoveSafe(this, new_x, new_y) == false) {
-		return false;
-	}
 
 	if (board->GetPiece(new_x, new_y) != nullptr)
 	{
@@ -50,6 +44,25 @@ bool King::Move(int dirX, int dirY)
 		return true;
 	}
 
+}
+
+bool King::CanMove(int targetX, int targetY) {
+
+	int dirX = targetX - pos_x;
+	int dirY = targetY - pos_y;
+
+	if (std::abs(dirX) > 1 || std::abs(dirY) > 1 || (dirX == 0 && dirY == 0)) {
+		return false;
+	}
+
+	if (board->IsMoveSafe(this, targetX, targetY) == false) {
+		return false;
+	}
+
+	Piece* piece = board->GetPiece(targetX, targetY);
+	if (piece != nullptr && piece->GetColor() == color) return false;
+
+	return true;
 }
 
 bool King::GiveCheck(int king_x, int king_y)

@@ -11,11 +11,7 @@ bool Rook::Move(int dirX, int dirY)
 	int new_x = GetPosX() + dirX;
 	int new_y = GetPosY() + dirY;
 
-	if (dirX != 0 && dirY != 0 || dirX==0 && dirY==0 || IsJumpingAbove(new_x,new_y)==false) return false;
-
-	if (board->IsMoveSafe(this, new_x, new_y) == false) {
-		return false;
-	}
+	if (!CanMove(new_x, new_y)) return false;
 
 	//checks if player want to destroy other piece
 	if (board->GetPiece(new_x, new_y) != nullptr)
@@ -39,6 +35,19 @@ bool Rook::Move(int dirX, int dirY)
 
 }
 
+bool Rook::CanMove(int targetX, int targetY)
+{
+	if ((pos_x == targetX && pos_y == targetY) || (pos_x != targetX && pos_y != targetY) || IsJumpingAbove(targetX, targetY) == false) return false;
+
+	if (board->IsMoveSafe(this, targetX, targetY) == false) {
+		return false;
+	}
+
+	Piece* target_piece = board->GetPiece(targetX, targetY);
+	if (target_piece != nullptr && target_piece->GetColor() == color) return false;
+
+	return true;
+}
 
 bool Rook::GiveCheck(int king_x, int king_y) {
 

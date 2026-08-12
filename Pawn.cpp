@@ -4,120 +4,67 @@
 #include"King.h"
 #include"Statics.h"
 
+#include<cmath>
+
 
 	Pawn::Pawn(Board* board,int start_x, int start_y,int index, int color) :Piece(board,start_x, start_y, index, PAWN_POWER, color), 
 		is_started(true) {}
 
-	bool Pawn::Move(int dirX, int dirY) 
+	bool Pawn::Move(int dirX, int dirY)
 	{
-		int new_x, new_y;
-		int legal_moves[4][2] = { {0,1} , {0,2} , {1,1} , {-1, 1} };
+		
+		int new_x = GetPosX() + dirX;
+		int new_y = GetPosY() + dirY;
 
-		if (GetColor() == COLOR_BLACK)
+		if (!CanMove(new_x, new_y)) return false;
+
+		
+		if (board->GetPiece(new_x, new_y) != nullptr)
 		{
-			//legal moves x;y
-			
-			for (int i = 0; i < 4; i++)
-			{
-				if (dirX == legal_moves[i][0] && dirY == legal_moves[i][1])
-				{
-					 new_x = GetPosX() + dirX;
-					 new_y = GetPosY() + dirY;
-
-					 if (new_x < 0 || new_x >= BOARD_SIZEX || new_y < 0 || new_y >= BOARD_SIZEY) {
-						 return false;
-					 }
-
-					 if (board->IsMoveSafe(this, new_x, new_y) == false) {
-						 return false;
-					 }
-
-					 //checks if the player want to destroy other piece
-					 if ((dirX == 1 || dirX == -1) && dirY == 1)
-					 {
-						 if (board->Beat(this, board->GetPiece(new_x, new_y)))
-						 {
-							 is_started = false;
-							 if (new_y == BOARD_SIZEY-1) board->SetPawnPromotion(new_x, new_y);
-							 return true;
-						 }
-							
-						 return false;
-							 
-					 }
-					 
-					 else  if ((dirX == 0 && dirY == 1) || (is_started == true && dirX == 0 && dirY == 2)) {
-
-							 if (board->GetPiece(new_x, new_y) == nullptr && IsJumpingAbove(new_x,new_y) ==true)
-							 {
-								 board->ChangePos(this,new_x, new_y);
-								 is_started = false;
-								 if (new_y == BOARD_SIZEY-1) board->SetPawnPromotion(new_x, new_y);
-								 return true;
-							 }
-
-							 else return false;
-							 
-					 }
-
-				}
-			}
-
-			return false;
-
+			board->Beat(this, board->GetPiece(new_x, new_y));
+		}
+		else
+		{
+			board->ChangePos(this, new_x, new_y);
 		}
 
-		//WHITE LOGIC
-		else {
-					
-			for (int i = 0; i < 4; i++)
-			{
-				if (dirX == legal_moves[i][0] && dirY == -legal_moves[i][1])
-				{
-					new_x = GetPosX() + dirX;
-					new_y = GetPosY() + dirY;
+		is_started = false;
 
-					if (new_x < 0 || new_x >= BOARD_SIZEX || new_y < 0 || new_y >= BOARD_SIZEY) {
-						return false;
-					}
-
-					if (board->IsMoveSafe(this, new_x, new_y) == false) {
-						return false;
-					}
-
-					//checks if the player want to destroy other piece
-					if ((dirX == 1 || dirX == -1) && dirY == -1)
-					{
-						if (board->Beat(this, board->GetPiece(new_x, new_y))) {
-							is_started = false;
-							if (new_y == 0) board->SetPawnPromotion(new_x, new_y);
-							return true;
-						}
-						return false;
-
-					}
-
-					else if ((dirX == 0 && dirY == -1) || (is_started == true && dirX == 0 && dirY == -2)) {
-
-						if (board->GetPiece(new_x, new_y) == nullptr && IsJumpingAbove(new_x, new_y) == true)
-						{
-							board->ChangePos(this, new_x, new_y);
-							is_started = false;
-							if (new_y == 0) board->SetPawnPromotion(new_x, new_y);
-							return true;
-						}
-
-						else return false;
-
-					}
-
-				}
-			}
-
-			return false;
-				
+	
+		if (new_y == 0 || new_y == BOARD_SIZEY - 1) {
+			board->SetPawnPromotion(new_x, new_y);
 		}
 
+		return true;
+	}
+
+	bool Pawn::CanMove(int targetX, int targetY)
+	{
+		int dirX = targetX - pos_x;
+		int dirY = targetY - pos_y;
+
+		
+		int forward = (color == COLOR_WHITE) ? -1 : 1;
+
+		if (board->IsMoveSafe(this, targetX, targetY) == false) return false;
+
+		Piece* target_piece = board->GetPiece(targetX, targetY);
+		if (target_piece != nullptr && target_piece->GetColor() == color) return false;
+
+		
+		if (dirX == 0 && dirY == forward) {
+			if (target_piece == nullptr) return true;
+		}
+		
+		else if (dirX == 0 && dirY == 2 * forward && is_started) {
+			if (target_piece == nullptr && IsJumpingAbove(targetX, targetY)) return true;
+		}
+		
+		else if (std::abs(dirX) == 1 && dirY == forward) {
+			if (target_piece != nullptr) return true;
+		}
+
+		return false;
 	}
 
 

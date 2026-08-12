@@ -445,3 +445,90 @@ using namespace std;
 			SDL_SetCursor(cursor_arrow); 
 		}
 	}
+
+	bool Board::IsFinished(int color){
+
+	
+		for (int i = 0; i < BOARD_SIZEX; i++) {
+
+			for (int j = 0; j < BOARD_SIZEY; j++)
+			{
+				if (GetPiece(i, j) == nullptr || GetPiece(i, j)->GetColor() != color) continue;
+
+				Piece* piece = GetPiece(i, j);
+
+				for (int x = 0; x < BOARD_SIZEX; x++) {
+
+					for (int y = 0; y < BOARD_SIZEY; y++) {
+
+						if (piece->CanMove(x, y)) return false;
+					}
+
+				}
+
+			}
+
+		}
+
+		King* king = dynamic_cast<King*>(ReturnKing(color));
+
+		if (king->IsChecked(king->GetPosX(), king->GetPosY()))
+		{
+			is_mat = true;
+			lost_color = color; // Zapisujemy, kto przegrał, dla funkcji DrawMat!
+			return true;
+		}
+
+		is_pat = true;
+		return true;
+
+	}
+
+	void Board::DrawMat(SDL_Renderer* renderer)
+	{
+		if (is_mat == false || font == nullptr) return;
+
+		SDL_Rect menu_bg = { 160, 240, 320, 160 };
+		SDL_SetRenderDrawColor(renderer, 200, 50, 50, 255); 
+		SDL_RenderFillRect(renderer, &menu_bg);
+
+		SDL_Color textColor = { 255, 255, 255, 255 }; 
+		const char* text = (lost_color == COLOR_WHITE) ? "Szach-Mat! Wygrywaja Czarne" : "Szach-Mat! Wygrywaja Biale";
+
+		SDL_Surface* textSurface = TTF_RenderText_Solid(font, text, textColor);
+		SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+
+		// Matematyka do wyśrodkowania tekstu w prostokącie
+		int text_x = menu_bg.x + (menu_bg.w - textSurface->w) / 2;
+		int text_y = menu_bg.y + (menu_bg.h - textSurface->h) / 2;
+		SDL_Rect textRect = { text_x, text_y, textSurface->w, textSurface->h };
+
+		SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
+
+		SDL_FreeSurface(textSurface);
+		SDL_DestroyTexture(textTexture);
+	}
+
+	void Board::DrawPat(SDL_Renderer* renderer)
+	{
+		if (is_pat == false || font == nullptr) return;
+
+		SDL_Rect menu_bg = { 160, 240, 320, 160 };
+		SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255); // Szare tło
+		SDL_RenderFillRect(renderer, &menu_bg);
+
+		SDL_Color textColor = { 255, 255, 255, 255 };
+		const char* text = "Pat! Remis";
+
+		SDL_Surface* textSurface = TTF_RenderText_Solid(font, text, textColor);
+		SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+
+		int text_x = menu_bg.x + (menu_bg.w - textSurface->w) / 2;
+		int text_y = menu_bg.y + (menu_bg.h - textSurface->h) / 2;
+		SDL_Rect textRect = { text_x, text_y, textSurface->w, textSurface->h };
+
+		SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
+
+		SDL_FreeSurface(textSurface);
+		SDL_DestroyTexture(textTexture);
+	}
